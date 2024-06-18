@@ -1,15 +1,14 @@
 # creating truck objects via truck class
 class Truck:
-    def __init__(self, mileage, address, depart_time, capacity=16, speed=18, packages=None):
+    def __init__(self, mileage, address, depart_time, packages=None, capacity=16, speed=18, current_time=None):
+        self.capacity = capacity
+        self.speed = speed
+        self.packages = packages if packages is not None else []
         self.mileage = mileage
         self.address = address
         self.depart_time = depart_time
-        self.capacity = capacity
-        self.speed = speed
-        # Initialize with provided list or as an empty list
-        self.packages = packages if packages is not None else []  
-        
+        self.time = current_time if current_time is not None else depart_time
+
     def __repr__(self):
-        # Assuming each package in self.packages has a package_id attribute
-        package_ids = [p['package_id'] for p in self.packages]
+        package_ids = [p for p in self.packages]
         return f"Truck(Capacity: {self.capacity}, Packages: {package_ids})"
