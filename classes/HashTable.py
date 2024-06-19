@@ -34,17 +34,3 @@ class HashTable:
         for bucket in self.table:
             items.extend(bucket)
         return items
-
-    def print_all(self):
-        for bucket in self.table:
-            for key, package in bucket:
-                print(f"Package ID: {package.package_id}")
-                print(f"  Address: {package.address}")
-                print(f"  City: {package.city}")
-                print(f"  State: {package.state}")
-                print(f"  Zip Code: {package.zip_code}")
-                print(f"  Deadline: {package.deadline}")
-                print(f"  Weight: {package.weight}")
-                print(f"  Status: {package.status}")
-                print(f"  Delivery Time: {package.delivery_time}")
-                print(f"  Departure Time: {package.departure_time}\n")
