@@ -28,9 +28,10 @@ def load_packages(file, hashtable):
             package_deadline = package[5]
             package_weight = package[6]
             package_status= "at hub"
+            package_notes = package[7]
 
             # creating package object with data
-            package = Package(package_id, package_address, package_city, package_state, package_zip, package_deadline, package_weight, package_status)
+            package = Package(package_id, package_address, package_city, package_state, package_zip, package_deadline, package_weight, package_status, package_notes)
 
             # inserting package data into hash table
             hashtable.insert(package_id, package)
@@ -86,6 +87,9 @@ def deliver_package(truck, package_hashtable):
         else:
             print(f"Package ID {package_id} not found in hash table")
 
+    # clears package list
+    truck.packages.clear()
+
     while len(undelivered) > 0:
         # initializing address and package variables
         next_address_distance = float('inf')
@@ -137,9 +141,8 @@ def print_total_mileage(truck1, truck2, truck3):
 def print_menu():
     print("\nMain Menu:")
     print("1. Show the total mileage traveled by all trucks")
-    print("2. Show the delivery statuses of packages by time")
-    print("3. Show the delivery times of all packages")
-    print("4. Exit")
+    print("2. Show the delivery info of packages by time")
+    print("3. Exit")
 
 
 # main function
@@ -152,16 +155,13 @@ def main():
     load_packages("CSV/WGUPS_Package_File.csv", package_hashtable)
 
     # creating truck objects loaded with packages
-    truck1 = Truck(0.0, "4001 South 700 East", time(8, 0), [25, 10, 19, 36, 1, 40, 11, 28, 20, 34, 3, 2, 21])
-    truck2 = Truck(0.0, "4001 South 700 East", time(8, 0), [15, 35, 22, 26, 16, 17, 7, 38, 14, 30, 31, 9, 18])
-    truck3 = Truck(0.0, "4001 South 700 East", time(10, 20), [32, 24, 8, 13, 6, 27, 23, 12, 33, 5, 29, 37, 4])
+    truck1 = Truck(0.0, "4001 South 700 East", time(8, 0), [1, 2, 8, 13, 15, 17, 19, 20, 21, 22, 24, 30, 38, 40])
+    truck2 = Truck(0.0, "4001 South 700 East", time(9, 5), [3, 4, 6, 14, 18, 23, 25, 27, 28, 32, 33, 37, 39])
+    truck3 = Truck(0.0, "4001 South 700 East", time(10, 40), [5, 7, 9, 10, 11, 12, 16, 26, 29, 31, 34, 35, 36])
 
     # deliver the packages via truck
     deliver_package(truck1, package_hashtable)
     deliver_package(truck2, package_hashtable)
-
-    # deliver with only two drivers at a time
-    truck3.depart_time = min(truck1.depart_time, truck2.depart_time)
     deliver_package(truck3, package_hashtable)
 
     while True:
@@ -194,26 +194,29 @@ def main():
                             status = "Delivered"
                         else:
                             status = "At hub" if package.departure_time > input_time else "En route"
-                        print(f"Package {package.package_id} : {status} at {input_time}")
+
+                        # determine which truck the package is on
+                        truck_name = "Truck 1" if package_id in truck1.packages else "Truck 2" if package_id in truck2.packages else "Truck 3"
+
+                        # print package info
+                        print(f"Package ID: {package.package_id}")
+                        print(f"Package Status: {status} at {input_time}")
+                        print(f"Address: {package.address}")
+                        print(f"City: {package.city}")
+                        print(f"State: {package.state}")
+                        print(f"ZIP: {package.zip_code}")
+                        print(f"Weight: {package.weight}")
+                        print(f"Notes: {package.special_notes}")
+                        print(f"Delivery Deadline: {package.deadline}")
+                        print(f"Delivery Time: {package.delivery_time if package.delivery_time else 'Not delivered yet'}")
+                        print(f"Loading Time: {package.departure_time if package.departure_time else 'Not loaded yet'}")
+                        print(f"Truck Name: {truck_name}")
+                        print("-" * 40)
             except ValueError:
                 print("Invalid entry. Please enter time in HH:MM format")
 
-        elif choice == '3':
-
-            print("All packages and their delivery times:")
-            # combine all packages from all trucks
-            all_packages = truck1.packages + truck2.packages + truck3.packages
-
-            # loop through packages
-            for package_id in all_packages:
-                # lookup each package by ID
-                package = package_hashtable.lookup(package_id)
-                # print all packages + delivery times
-                if package:
-                    print(f"Package {package.package_id}: Delivery Time: {package.delivery_time}")
-
         # exiting the program
-        elif choice == '4':
+        elif choice == '3':
             print("Exiting the program.")
             break
         else:
