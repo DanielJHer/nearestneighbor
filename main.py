@@ -155,9 +155,9 @@ def main():
     load_packages("CSV/WGUPS_Package_File.csv", package_hashtable)
 
     # creating truck objects loaded with packages
-    truck1 = Truck(0.0, "4001 South 700 East", time(8, 0), [1, 2, 8, 13, 15, 17, 19, 20, 21, 22, 24, 30, 38, 40])
-    truck2 = Truck(0.0, "4001 South 700 East", time(9, 5), [3, 4, 6, 14, 18, 23, 25, 27, 28, 32, 33, 37, 39])
-    truck3 = Truck(0.0, "4001 South 700 East", time(10, 40), [5, 7, 9, 10, 11, 12, 16, 26, 29, 31, 34, 35, 36])
+    truck1 = Truck(0.0, "4001 South 700 East", time(8, 0), [1, 13, 14, 15, 16, 19, 20, 29, 30, 31, 34, 37, 40])
+    truck2 = Truck(0.0, "4001 South 700 East", time(9, 5), [3, 6, 18, 25, 28, 32, 36, 38])
+    truck3 = Truck(0.0, "4001 South 700 East", time(10, 40), [2, 4, 5, 7, 8, 9, 10, 11, 12, 17, 21, 22, 23, 24, 26, 27, 33, 35, 39])
 
     # deliver the packages via truck
     deliver_package(truck1, package_hashtable)
