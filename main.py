@@ -200,7 +200,7 @@ def main():
 
                         # print package info
                         print(f"Package ID: {package.package_id}")
-                        print(f"Package Status: {status} at {input_time}")
+                        print(f"Package Status: {status} by {input_time}")
                         print(f"Address: {package.address}")
                         print(f"City: {package.city}")
                         print(f"State: {package.state}")
